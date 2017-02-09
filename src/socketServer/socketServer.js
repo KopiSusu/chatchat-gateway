@@ -8,16 +8,25 @@ const PORT = process.env.PORT || 8090;
 
 export function startServer() {
 
-	const server = express()
+	const socketServer = express()
 	  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-	const io = SocketIo(server);
+	const io = SocketIo(socketServer);
 
   	io.on('connection', (socket) => {
 	  	console.log('Client connected');
-      	// Facebook(socket, 'connection')
+
+      	
 
 	  	socket.on('disconnect', () => console.log('Client disconnected'));
+
+	  	socket.on('connect_facebook', () => {
+
+	  		console.log('Client connect_facebook')
+	  		
+	  		Facebook(socket, 'connection')
+
+	  	});
 	});
 
 }
