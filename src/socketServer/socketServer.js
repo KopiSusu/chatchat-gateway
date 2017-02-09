@@ -1,18 +1,26 @@
-import Server from 'socket.io';
+import SocketIo from 'socket.io'
+import express from 'express'
+import path from 'path'
+
 import Facebook from './../facebook'
 
+const PORT = process.env.PORT || 8090;
+const INDEX = path.join(__dirname, 'index.html');
+
 export function startServer() {
-  	const io = new Server().attach(8090);
+
+	const server = express()
+	  .use((req, res) => res.sendFile(INDEX) )
+	  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
+	const io = socketIO(server);
 
   	io.on('connection', (socket) => {
-      	// set up facebook
-      	Facebook(socket, 'connection')
+	  	console.log('Client connected');
 
-  		// What to do on inital connections.
-    	// socket.emit('state', {});
+      	Facebook(socket, 'connection');
 
-    	// When a new action comes in.
-    	// socket.on('action', store.dispatch.bind(store));
-  	});
+	  	socket.on('disconnect', () => console.log('Client disconnected'));
+	});
 
 }
