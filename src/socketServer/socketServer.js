@@ -13,10 +13,10 @@ export function startServer() {
 
 	const socket = SocketIo(server);
 
-	const facebookApp = express()
-		.set('port', (process.env.PORT || 5000));
+	// const facebookApp = express()
+	// 	.set('port', (process.env.PORT || 5000));
 
-  	Facebook(facebookApp, socket, 'connection')
+ //  	Facebook(facebookApp, socket, 'connection')
 
   	socket.on('connection', (socket) => {
 	  	console.log('Client connected');
