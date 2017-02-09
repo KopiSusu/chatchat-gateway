@@ -1,3 +1,5 @@
+'use strict'
+
 import {startServer} from './src/socketServer/socketServer';
 
 startServer();

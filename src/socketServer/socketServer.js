@@ -1,3 +1,5 @@
+'use strict'
+
 import SocketIo from 'socket.io'
 import express from 'express'
 import path from 'path'
