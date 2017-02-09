@@ -1,3 +1,4 @@
+'use strict'
 
 import express from 'express'
 import bodyParser from 'body-parser'
@@ -46,7 +47,7 @@ export default (socket, query) => {
             if (event.message && event.message.text) {
                 let text = event.message.text
                 let messageObj = {sender: sender, text: text.substring(0, 200)}
-                socket.emit('_ACTION', ,messageObj);
+                socket.emit('_ACTION', messageObj);
                 
                 // if (text === 'Generic') {
                 //     sendGenericMessage(sender)
