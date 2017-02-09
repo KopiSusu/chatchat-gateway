@@ -19,7 +19,7 @@ export function startServer() {
 
   	io.on('connection', (socket) => {
 	  	console.log('Client connected');
-      	Facebook(socket, 'connection')
+      	// Facebook(socket, 'connection')
 
 	  	socket.on('disconnect', () => console.log('Client disconnected'));
 	});
