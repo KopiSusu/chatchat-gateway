@@ -15,7 +15,7 @@ export function startServer() {
 	  .use((req, res) => res.sendFile(INDEX) )
 	  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-	const io = socketIO(server);
+	const io = SocketIo(server);
 
   	io.on('connection', (socket) => {
 	  	console.log('Client connected');
