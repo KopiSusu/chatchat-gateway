@@ -11,15 +11,11 @@ export function startServer() {
 	const server = express()
 	  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-	const socket = SocketIo(server);
+	const io = SocketIo(server);
 
-	// const facebookApp = express()
-	// 	.set('port', (process.env.PORT || 5000));
-
- //  	Facebook(facebookApp, socket, 'connection')
-
-  	socket.on('connection', (socket) => {
+  	io.on('connection', (socket) => {
 	  	console.log('Client connected');
+      	// Facebook(socket, 'connection')
 
 	  	socket.on('disconnect', () => console.log('Client disconnected'));
 	});
