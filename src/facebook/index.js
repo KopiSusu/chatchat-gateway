@@ -6,24 +6,24 @@ import request from 'request'
 
 const token = "EAAXUC29wWUQBAHGr37ZCGvZBJtCghFIwGgx9fGbIAx4rwkYz7fzjk0WwhRBzD2PKm6xDJX9iS6TUDZCyzrctW8ke3fhAzJQesXC8lXBIkbZBofubFs1T9xHZCKByY6gUkaIMIViqolpd3ZCnvPpYjvxSdLWKWBFAZCbLnb3s6x60gZDZD"
 
-export default (socket, query) => {
-    const app = express()
+export function connectFacebook (socket, query) {
+    const facebookServer = express()
 
-    app.set('port', (process.env.PORT || 5000))
+    facebookServer.set('port', (process.env.PORT || 3030))
 
     // Process application/x-www-form-urlencoded
-    app.use(bodyParser.urlencoded({extended: false}))
+    facebookServer.use(bodyParser.urlencoded({extended: false}))
 
     // Process application/json
-    app.use(bodyParser.json())
+    facebookServer.use(bodyParser.json())
 
     // Index route
-    app.get('/', function (req, res) {
+    facebookServer.get('/', function (req, res) {
         res.send('Hello world, I am a chat bot')
     })
 
     // for Facebook verification
-    app.get('/webhook/', function (req, res) {
+    facebookServer.get('/webhook/', function (req, res) {
         if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
             res.send(req.query['hub.challenge'])
         }
@@ -31,13 +31,13 @@ export default (socket, query) => {
     })
 
     // Spin up the server
-    app.listen(app.get('port'), function() {
-        console.log('running on port', app.get('port'))
+    facebookServer.listen(facebookServer.get('port'), function() {
+        console.log('facebookServer running on port', facebookServer.get('port'))
     })
 
     // Process Messages
     // Recieve Message
-    app.post('/webhook/', function (req, res) {
+    facebookServer.post('/webhook/', function (req, res) {
         let messaging_events = req.body.entry[0].messaging
 
         for (let i = 0; i < messaging_events.length; i++) {
