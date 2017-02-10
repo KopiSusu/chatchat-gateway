@@ -1,33 +1,24 @@
 {
-  "name": "gateway",
-  "version": "1.0.0",
+  "name": "chatchat-gateway",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node index.js",
-    "test": "mocha --compilers js:babel-core/register  --require ./test/test_helper.js  --recursive",
-    "test: watch": "npm run test -- --watch"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KopiSusu/chatchat-gateway.git"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "chai": "3.5.0",
-    "chai-immutable": "1.5.3",
-    "mocha": "2.4.5"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KopiSusu/chatchat-gateway/issues"
   },
+  "homepage": "https://github.com/KopiSusu/chatchat-gateway#readme",
   "dependencies": {
-    "babel-core": "6.5.1",
-    "babel-cli": "6.5.1",
-    "babel-preset-es2015": "6.5.0",
     "body-parser": "^1.16.0",
     "express": "^4.14.1",
-    "request": "^2.79.0",
-    "moment": "^2.17.1",
-    "socket.io": "1.4.5"
-  },
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
+    "request": "^2.79.0"
   }
 }
