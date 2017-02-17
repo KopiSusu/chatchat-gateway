@@ -50,17 +50,16 @@ app.post('/webhook/', function (req, res) {
 })
 
 function sendFacebookMessage(sender, text) {
-    console.log(sender)
+    console.log('sender: ', sender)
     let messageData = { text:text }
-
-    console.log('did this work?')
+    
     request
-        .post('https://graph.facebook.com/v2.6/me/messages')
+        .post(`https://graph.facebook.com/v2.6/me/messages?access_token=${token}`)
         .send({
-            access_token: token,
             recipient: {id:sender},
             message: messageData,
         })
+        .set('Accept', 'application/json')
         .end((err, res) => {
             if (err) {
                 console.log('some error threw')
