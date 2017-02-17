@@ -43,7 +43,7 @@ app.post('/webhook/', function (req, res) {
                 sendGenericMessage(sender)
                 continue
             }
-            sendFacebookMessage(sender, "Text received, echo: " + text.substring(0, 200))
+            sendFacebookMessage(sender, "Text received from facebook gateway, echo: " + text.substring(0, 200))
         }
     }
     res.sendStatus(200)
