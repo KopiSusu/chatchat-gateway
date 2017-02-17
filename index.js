@@ -52,21 +52,34 @@ app.post('/webhook/', function (req, res) {
 function sendTextMessage(sender, text) {
     console.log(sender)
     let messageData = { text:text }
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:token},
-        method: 'POST',
-        json: {
+    // request({
+    //     url: 'https://graph.facebook.com/v2.6/me/messages',
+    //     qs: {access_token:token},
+    //     method: 'POST',
+    //     json: {
+    //         recipient: {id:sender},
+    //         message: messageData,
+    //     }
+    // }, function(error, response, body) {
+    //     if (error) {
+    //         console.log('Error sending messages: ', error)
+    //     } else if (response.body.error) {
+    //         console.log('Error: ', response.body.error)
+    //     }
+    // })
+
+    request
+        .post('https://graph.facebook.com/v2.6/me/messages')
+        .send({
+            access_token: token,
             recipient: {id:sender},
             message: messageData,
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending messages: ', error)
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error)
-        }
-    })
+        })
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+            if (err) { return reject(err) }
+            return resolve(res.body)
+        })
 }
 
 function sendGenericMessage(sender) {
