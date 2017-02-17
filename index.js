@@ -61,12 +61,9 @@ function sendFacebookMessage(sender, text) {
             recipient: {id:sender},
             message: messageData,
         })
-        .end(function(error, response, body) {
-            if (error) {
-                console.log('Error sending messages: ', error)
-            } else if (response.body.error) {
-                console.log('Error: ', response.body.error)
-            }
+        .end((err, res) => {
+            if (err) { return this.Promise.reject(err) }
+            return this.Promise.resolve(res.body)
         })
 }
 
