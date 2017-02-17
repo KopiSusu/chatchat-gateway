@@ -2,7 +2,7 @@
 
 const express = require('express')
 const bodyParser = require('body-parser')
-const request = require('request')
+const request = require('superagent')
 const app = express()
 
 app.set('port', (process.env.PORT || 5000))
@@ -43,31 +43,17 @@ app.post('/webhook/', function (req, res) {
                 sendGenericMessage(sender)
                 continue
             }
-            sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+            sendFacebookMessage(sender, "Text received, echo: " + text.substring(0, 200))
         }
     }
     res.sendStatus(200)
 })
 
-function sendTextMessage(sender, text) {
+function sendFacebookMessage(sender, text) {
     console.log(sender)
     let messageData = { text:text }
-    // request({
-    //     url: 'https://graph.facebook.com/v2.6/me/messages',
-    //     qs: {access_token:token},
-    //     method: 'POST',
-    //     json: {
-    //         recipient: {id:sender},
-    //         message: messageData,
-    //     }
-    // }, function(error, response, body) {
-    //     if (error) {
-    //         console.log('Error sending messages: ', error)
-    //     } else if (response.body.error) {
-    //         console.log('Error: ', response.body.error)
-    //     }
-    // })
 
+    console.log('did this work?')
     request
         .post('https://graph.facebook.com/v2.6/me/messages')
         .send({
@@ -75,7 +61,6 @@ function sendTextMessage(sender, text) {
             recipient: {id:sender},
             message: messageData,
         })
-        .set('Accept', 'application/json')
         .end((err, res) => {
             if (err) { return reject(err) }
             return resolve(res.body)
