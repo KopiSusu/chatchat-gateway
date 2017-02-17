@@ -43,14 +43,14 @@ app.post('/webhook/', function (req, res) {
                 sendGenericMessage(sender)
                 continue
             }
-            // sendFacebookMessage(sender, "Text received from facebook gateway, echo: " + text.substring(0, 200))
-            sendGabeMessage(1398313213526486, 'Hi gabe!!!!! from facebook gateway')
+            sendFacebookMessage(sender, "Text received from facebook gateway, echo: " + text.substring(0, 200))
+            // sendGabeMessage(1398313213526486, 'Hi gabe!!!!! from facebook gateway')
         }
     }
     res.sendStatus(200)
 })
 
-function sendGabeMessage(sender, text) {
+function sendFacebookMessage(sender, text) {
     console.log('sender: ', sender)
     console.log('text: ', text)
 
