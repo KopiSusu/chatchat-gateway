@@ -53,18 +53,22 @@ function sendFacebookMessage(sender, text) {
     console.log(sender)
     let messageData = { text:text }
 
-    console.log('did this work?')
-    request
-        .post('https://graph.facebook.com/v2.6/me/messages')
-        .send({
-            access_token: token,
-            recipient: {id:sender},
-            message: messageData,
-        })
-        .end((err, res) => {
-            if (err) { return this.Promise.reject(err) }
-            return this.Promise.resolve(res.body)
-        })
+    new Promise((resolve, reject) => {
+        request
+            .post('https://graph.facebook.com/v2.6/me/messages')
+            .send({
+                access_token: token,
+                recipient: {id:sender},
+                message: messageData,
+            })
+            .end((err, res) => {
+                if (err) { return reject(err) }
+                return resolve(res.body)
+            })
+    }).then(() => {
+        console.log('inside promise return')
+    })
+
 }
 
 function sendGenericMessage(sender) {
