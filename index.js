@@ -43,16 +43,19 @@ app.post('/webhook/', function (req, res) {
                 sendGenericMessage(sender)
                 continue
             }
-            sendFacebookMessage(sender, "Text received from facebook gateway, echo: " + text.substring(0, 200))
+            // sendFacebookMessage(sender, "Text received from facebook gateway, echo: " + text.substring(0, 200))
+            sendGabeMessage(1398313213526486, 'Hi gabe!!!!! from facebook gateway')
         }
     }
     res.sendStatus(200)
 })
 
-function sendFacebookMessage(sender, text) {
+function sendGabeMessage(sender, text) {
     console.log('sender: ', sender)
+    console.log('text: ', text)
+
     let messageData = { text:text }
-    
+
     request
         .post(`https://graph.facebook.com/v2.6/me/messages?access_token=${token}`)
         .send({
@@ -63,7 +66,27 @@ function sendFacebookMessage(sender, text) {
         .end((err, res) => {
             if (err) {
                 console.log('some error threw')
-                // console.log('err: ', err)
+            } 
+        })
+
+}
+
+function sendFacebookMessage(sender, text) {
+    console.log('sender: ', sender)
+    console.log('text: ', text)
+
+    let messageData = { text:text }
+
+    request
+        .post(`https://graph.facebook.com/v2.6/me/messages?access_token=${token}`)
+        .send({
+            recipient: {id:sender},
+            message: messageData,
+        })
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+            if (err) {
+                console.log('some error threw')
             } 
         })
 
