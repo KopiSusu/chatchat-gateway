@@ -63,7 +63,8 @@ function sendFacebookMessage(sender, text) {
         })
         .end((err, res) => {
             if (err) {
-                console.log('err: ', err)
+                console.log('some error threw')
+                // console.log('err: ', err)
             } 
         })
 
