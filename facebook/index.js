@@ -17,6 +17,8 @@ module.exports = {
 		// Process Messages
 		app.post('/facebook/', function (req, res) {
 
+			console.log('did this work? inside /facebook/')
+
 		    let messaging_events = req.body.entry[0].messaging
 
 		    for (let i = 0; i < messaging_events.length; i++) {
@@ -75,7 +77,7 @@ module.exports = {
             } else {
             	sendFacebookMessage(req.body.sender_facebook_id, req.body.sender_facebook_id.text.substring(0, 200))
             }
-            
+
 		    res.sendStatus(200)
 		})
 		function sendFacebookMessage(sender, text) {
