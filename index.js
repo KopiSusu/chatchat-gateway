@@ -70,8 +70,8 @@ function receiveFacebookMessage(sender, text) {
         "created_on": new Date(), 
         "data": null, 
         "img_src": null, 
-        "to": +19179001106,
-        "from": sender, 
+        "to": '+19179001106',
+        "from": sender + '', 
         "source_type": "fbm", 
         "tag": null, 
     }
