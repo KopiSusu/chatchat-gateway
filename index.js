@@ -15,7 +15,12 @@ app.use(bodyParser.json())
 
 // Index route
 app.get('/', function (req, res) {
-    res.send('Hello world, I am a chat bot')
+    res.send('Hello world, I am a chat gateway')
+})
+
+// Spin up the server
+app.listen(app.get('port'), function() {
+    console.log('running on port', app.get('port'))
 })
 
 // for Facebook verification
@@ -24,11 +29,6 @@ app.get('/webhook/', function (req, res) {
         res.send(req.query['hub.challenge'])
     }
     res.send('Error, wrong token')
-})
-
-// Spin up the server
-app.listen(app.get('port'), function() {
-    console.log('running on port', app.get('port'))
 })
 
 // Process Messages
@@ -43,32 +43,33 @@ app.post('/webhook/', function (req, res) {
                 sendGenericMessage(sender)
                 continue
             }
-            sendFacebookMessage(sender, "Text received from facebook gateway, echo: " + text.substring(0, 200))
-            // sendGabeMessage(1398313213526486, 'Hi gabe!!!!! from facebook gateway')
+            receiveFacebookMessage(sender, text.substring(0, 200))
+            // sendFacebookMessage(sender, "Text received from facebook gateway, echo: " + text.substring(0, 200))
         }
     }
     res.sendStatus(200)
 })
 
-function sendFacebookMessage(sender, text) {
-    console.log('sender: ', sender)
-    console.log('text: ', text)
-
-    let messageData = { text:text }
+function receiveFacebookMessage(sender, text) {
+    const newMessages = {
+        "body": text, 
+        "created_on": new Date(), 
+        "data": null, 
+        "img_src": null, 
+        "msg_from": sender, 
+        "source_type": "fbm", 
+        "tag": null, 
+    }
 
     request
-        .post(`https://graph.facebook.com/v2.6/me/messages?access_token=${token}`)
-        .send({
-            recipient: {id:sender},
-            message: messageData,
-        })
+        .post(`http://chatchat.api.everybodysay.com:3000/gateway/fbm/in`)
+        .send(newMessages)
         .set('Accept', 'application/json')
         .end((err, res) => {
             if (err) {
                 console.log('some error threw')
             } 
         })
-
 }
 
 function sendFacebookMessage(sender, text) {
@@ -91,4 +92,7 @@ function sendFacebookMessage(sender, text) {
         })
 
 }
+
+http://chatchat.api.everybodysay.com:3000/
+
 const token = "EAAXUC29wWUQBAHGr37ZCGvZBJtCghFIwGgx9fGbIAx4rwkYz7fzjk0WwhRBzD2PKm6xDJX9iS6TUDZCyzrctW8ke3fhAzJQesXC8lXBIkbZBofubFs1T9xHZCKByY6gUkaIMIViqolpd3ZCnvPpYjvxSdLWKWBFAZCbLnb3s6x60gZDZD"
