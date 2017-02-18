@@ -74,6 +74,8 @@ function receiveFacebookMessage(sender, text) {
         "source_type": "fbm", 
         "tag": null, 
     }
+    console.log('sender: ', sender)
+    console.log('newMessages: ', newMessages)
 
     request
         .post(`http://chatchat.api.everybodysay.com:3000/gateway/fbm/in`)
