@@ -3,7 +3,7 @@
 module.exports = {
 	initiateWebhook: (app, token) => {
 		// for Facebook verification
-		app.get('/webhook/', function (req, res) {
+		app.get('/facebook/', function (req, res) {
 		    if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
 		        res.send(req.query['hub.challenge'])
 		    }
@@ -11,7 +11,7 @@ module.exports = {
 		})
 
 		// Process Messages
-		app.post('/webhook/', function (req, res) {
+		app.post('/facebook/', function (req, res) {
 
 		    let messaging_events = req.body.entry[0].messaging
 
@@ -63,7 +63,7 @@ module.exports = {
 		}
 
 
-		app.post('/webhook/return', function (req, res) {
+		app.post('/facebook/return', function (req, res) {
 			console.log('req.body: ', req.body)
 		    let messaging_events = req.body.entry[0].messaging
 		    for (let i = 0; i < messaging_events.length; i++) {
