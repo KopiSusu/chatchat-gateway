@@ -43,11 +43,24 @@ app.post('/webhook/', function (req, res) {
                 sendGenericMessage(sender)
                 continue
             }
-            receiveFacebookMessage(sender, text.substring(0, 200))
+            getSenderName(sender, text.substring(0, 200))
+            // sendFacebookMessage(sender, "Text received from facebook gateway, echo: " + text.substring(0, 200))
         }
     }
     res.sendStatus(200)
 })
+
+function getSenderName(sender, text) {
+    request
+        .get(`https://graph.facebook.com/v2.6/${sender}?fields=first_name,last_name&access_token=${token}`)
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+            if (!err) {
+                console.log(res)
+                receiveFacebookMessage(res.body, text)
+            } 
+        })
+}
 
 function receiveFacebookMessage(sender, text) {
     const newMessages = {
