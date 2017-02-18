@@ -56,19 +56,18 @@ function getSenderName(sender, text) {
         .set('Accept', 'application/json')
         .end((err, res) => {
             if (!err) {
-                console.log(res)
-                receiveFacebookMessage(res.body, text)
+                receiveFacebookMessage(`${res.body.first_name} ${res.body.first_name}`, sender, text)
             } 
         })
 }
 
-function receiveFacebookMessage(sender, text) {
+function receiveFacebookMessage(name, sender, text) {
     const newMessages = {
         "body": text, 
         "created_on": new Date(), 
         "data": null, 
         "img_src": null, 
-        "msg_from": sender, 
+        "from": name, 
         "source_type": "fbm", 
         "tag": null, 
     }
