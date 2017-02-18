@@ -1,5 +1,9 @@
 'use strict'
 
+const express = require('express')
+const bodyParser = require('body-parser')
+const request = require('superagent')
+
 module.exports = {
 	initiateWebhook: (app, token) => {
 		// for Facebook verification
