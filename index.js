@@ -91,7 +91,7 @@ function receiveFacebookMessage(sender, text) {
 
 
 app.post('/facebook/return', function (req, res) {
-    console.log('req: ', req)
+    console.log('req.body: ', req.body)
 
     if (text === 'Generic') {
         sendGenericMessage(sender)
