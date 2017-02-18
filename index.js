@@ -93,10 +93,19 @@ function receiveFacebookMessage(sender, text) {
 app.post('/facebook/return', function (req, res) {
     console.log('req.body: ', req.body)
 
+    let sender = req.body.sender_facebook_id;
+
+    while(sender.charAt(0) === '+')
+    {
+        sender = sender.substring(1, 200)
+    }
+
+    console.log('sender: ', sender)
+
     if (req.body.text === 'Generic') {
         sendGenericMessage(sender)
     } else {
-        sendFacebookMessage(req.body.sender_facebook_id, req.body.text.substring(0, 200))
+        sendFacebookMessage(sender, req.body.text.substring(0, 200))
     }
 
     res.sendStatus(200)
