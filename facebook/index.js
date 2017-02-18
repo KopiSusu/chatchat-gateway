@@ -73,9 +73,10 @@ module.exports = {
             if (text === 'Generic') {
                 sendGenericMessage(sender)
                 continue
+            } else {
+            	sendFacebookMessage(req.body.sender_facebook_id, req.body.sender_facebook_id.text.substring(0, 200))
             }
-            sendFacebookMessage(req.body.sender_facebook_id, req.body.sender_facebook_id.text.substring(0, 200))
-
+            
 		    res.sendStatus(200)
 		})
 		function sendFacebookMessage(sender, text) {
