@@ -69,19 +69,13 @@ module.exports = {
 
 		app.post('/facebook/return', function (req, res) {
 			console.log('req.body: ', req.body)
-		    let messaging_events = req.body.entry[0].messaging
-		    for (let i = 0; i < messaging_events.length; i++) {
-		        let event = req.body.entry[0].messaging[i]
-		        let sender = event.sender.id
-		        if (event.message && event.message.text) {
-		            let text = event.message.text
-		            if (text === 'Generic') {
-		                sendGenericMessage(sender)
-		                continue
-		            }
-		            sendFacebookMessage(sender, text.substring(0, 200))
-		        }
-		    }
+
+            if (text === 'Generic') {
+                sendGenericMessage(sender)
+                continue
+            }
+            sendFacebookMessage(req.body.sender_facebook_id, req.body.sender_facebook_id.text.substring(0, 200))
+
 		    res.sendStatus(200)
 		})
 		function sendFacebookMessage(sender, text) {
