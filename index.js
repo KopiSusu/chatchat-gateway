@@ -61,7 +61,7 @@ function receiveFacebookMessage(sender, text) {
         "img_src": null, 
         "to": '+19179001106',
         "from": sender + '', 
-        "source_type": "fbm", 
+        "source_type": "FBM", 
         "tag": null, 
     }
     console.log('sender: ', sender)
@@ -87,9 +87,6 @@ function getSenderName(sender, text) {
             } 
         })
 }
-
-
-
 app.post('/facebook/return', function (req, res) {
     console.log('req.body: ', req.body)
 
@@ -130,3 +127,110 @@ function sendFacebookMessage(sender, text) {
         })
 
 }
+
+
+// LINE STUFF
+
+
+// Process Messages
+app.post('/line/', function (req, res) {
+    let messaging_events = req.body.events
+    for (let i = 0; i < messaging_events.length; i++) {
+        let event = req.body.events[i]
+        let sender = event.source.userId
+        let replyToken =  event.replyToken
+        if (event.message && event.message.text) {
+            let text = event.message.text
+            receiveLineMessage(sender, "Text received from line gateway, echo: " + text.substring(0, 200))
+            
+        }
+    }
+    res.sendStatus(200)
+})
+function receiveLineMessage(sender, text) {
+    const newMessages = {
+        "body": text, 
+        "created_on": new Date(), 
+        "data": null, 
+        "img_src": null, 
+        "to": '+19179001106',
+        "from": sender + '', 
+        "source_type": "line", 
+        "tag": null, 
+    }
+    console.log('sender: ', sender)
+    console.log('newMessages: ', newMessages)
+
+    request
+        .post(`http://chatchat.api.everybodysay.com:3000/gateway/line/in`)
+        .send(newMessages)
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+            if (err) {
+                console.log('some error threw')
+            } 
+        })
+}
+
+
+app.post('/line/return', function (req, res) {
+    console.log('inside /line/return')
+    console.log('req.body: ', req.body)
+
+    let sender = req.body.sender_line_id;
+
+    while(sender.charAt(0) === '+')
+    {
+        sender = sender.substring(1, 200)
+    }
+
+    console.log('sender: ', sender)
+    pushLineMessage(sender, req.body.text.substring(0, 200))
+
+    res.sendStatus(200)
+})
+function pushLineMessage(sender, text) {
+  console.log('text: ', text)
+
+  request
+        .post('https://api.line.me/v2/bot/message/push')
+        .send({
+            to: sender,
+            messages: [ 
+              {
+                "type":"text",
+                "text":text
+            }
+          ]
+        })
+        .set('Authorization', `Bearer ${cT}`)
+        .end((err, res) => {
+            if (err) {
+                console.log('err: ', err)
+            } 
+        })
+}
+function replyLineMessage(replyToken, text) {
+    console.log('text: ', text)
+
+    request
+        .post('https://api.line.me/v2/bot/message/reply')
+        .send({
+            replyToken: replyToken,
+            messages: [ 
+                {
+                    "type":"text",
+                    "text":text
+                }
+            ]
+        })
+        .set('Authorization', `Bearer ${cT}`)
+        .end((err, res) => {
+            if (err) {
+                console.log('err: ', err)
+            } 
+        })
+}
+
+
+const cT = 'ToDFVvCpNFbfjtxzR2CDLNTt3aSWAhLN2/9jf03d0VGJSqh4DMSJd+fRm4ZH+TfNmzbWt6VCAosZqxsTmvmbIFLh7nQPLztM7/YIIryklIwG65ds9X11voXd8uPXqjabkrgCZYXnzo3dJNwJQwopIQdB04t89/1O/w1cDnyilFU='
