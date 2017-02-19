@@ -53,17 +53,6 @@ app.post('/facebook/', function (req, res) {
     }
     res.sendStatus(200)
 })
-
-function getSenderName(sender, text) {
-    request
-        .get(`https://graph.facebook.com/v2.6/${sender}?fields=first_name,last_name&access_token=${fbT}`)
-        .set('Accept', 'application/json')
-        .end((err, res) => {
-            if (!err) {
-                receiveFacebookMessage(`${res.body.first_name} ${res.body.first_name}`, sender, text)
-            } 
-        })
-}
 function receiveFacebookMessage(sender, text) {
     const newMessages = {
         "body": text, 
@@ -88,6 +77,17 @@ function receiveFacebookMessage(sender, text) {
             } 
         })
 }
+function getSenderName(sender, text) {
+    request
+        .get(`https://graph.facebook.com/v2.6/${sender}?fields=first_name,last_name&access_token=${fbT}`)
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+            if (!err) {
+                receiveFacebookMessage(`${res.body.first_name} ${res.body.first_name}`, sender, text)
+            } 
+        })
+}
+
 
 
 app.post('/facebook/return', function (req, res) {
